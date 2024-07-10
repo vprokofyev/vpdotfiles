@@ -262,8 +262,8 @@ complete -o default -o nospace -F _man vman
 ###############################################################################
 # Source external files
 ###############################################################################
-source ~/fzf-key-bindings.bash
-source /usr/share/bash-completion/completions/fzf
+#source ~/fzf-key-bindings.bash
+#source /usr/share/bash-completion/completions/fzf
 
 #eval "$(zellij setup --generate-auto-start bash)"
 #. "$HOME/.cargo/env"
@@ -279,4 +279,3 @@ if [ -f '/home/vp/yandex-cloud/path.bash.inc' ]; then source '/home/vp/yandex-cl
 if [ -f '/home/vp/yandex-cloud/completion.bash.inc' ]; then source '/home/vp/yandex-cloud/completion.bash.inc'; fi
 
 #export PATH=$PATH:$HOME/go/bin
-

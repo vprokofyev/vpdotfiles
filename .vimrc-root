@@ -1,0 +1,170 @@
+"-----------------------------------------------------------------------------
+" Init
+"-----------------------------------------------------------------------------
+set nocompatible
+scriptencoding utf-8
+set encoding=utf-8
+set termencoding=utf-8
+set clipboard=unnamedplus
+filetype off
+set path+=**
+" Lets switch with Ctrl-^
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
+set rtp+=~/.vim/bundle/Vundle.vim
+filetype plugin indent on
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+call vundle#begin()
+Plugin 'Vundle/Vundle.vim'
+
+"-----------------------------------------------------------------------------
+" Plugins
+"-----------------------------------------------------------------------------
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install()  }  }
+call vundle#end()
+
+"-----------------------------------------------------------------------------
+" Sets
+"-----------------------------------------------------------------------------
+set scrolloff=7
+set timeout timeoutlen=500 ttimeoutlen=500
+set smartindent
+set hidden
+set nohlsearch
+set ignorecase
+set incsearch
+set wildmenu
+set showcmd
+set noshowmode
+set autoread
+set nu
+set relativenumber
+set ttyfast
+set nowrap
+set shiftwidth=4
+set softtabstop=4
+set colorcolumn=80
+set termwinsize=10x200
+set textwidth=80
+" Don't format to 79 textwidth by default
+set formatoptions=
+set splitright
+
+" Fix default weird vim behaviour with json files
+let g:vim_json_conceal = 0
+" Ripgrep function used by \s
+command! -bang -nargs=* RG call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --glob='!{/proc,/sys,**/*.js,**/*.css,/home,**/*.py}' --no-follow firefox /".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
+"au BufNewFile,BufRead *.yaml,*.yml  setf yaml
+
+" Fix auto-indentation for YAML files
+augroup yaml_fix
+    autocmd!
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
+augroup END
+
+"-----------------------------------------------------------------------------
+" Custom binds
+"-----------------------------------------------------------------------------
+
+" Numbers on/off
+map <F1> :set nu!<CR> :set rnu!<CR><ESC>
+" Toggle special indent characters
+map <F2> :IndentLinesToggle<CR>
+" Toggle special characters
+map <F3> :set list!<CR>
+" Paste mode on/off
+set pastetoggle=<F4>
+"Remove all trailing whitespace by pressing F8
+nnoremap <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+" System clipboard binds 
+inoremap <C-v> <ESC>"+pa
+vnoremap <C-c> "+y
+
+"-----------------------------------------------------------------------------
+" FZF
+"-----------------------------------------------------------------------------
+" FZF Buffer Delete
+function! s:list_buffers() abort
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines) abort
+  " Use bdelete so buffers stay in locationlist
+  execute 'bdelete' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({ 'source': s:list_buffers(), 'sink*': { lines -> s:delete_buffers(lines) }, 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+" List all buffers
+nnoremap <silent> <C-b> :Buffers<CR>
+" Search in current buffer
+nnoremap <silent> <C-f> :BLines<CR>
+" Search in all buffers
+nnoremap <silent> <C-l> :Lines<CR>
+" Search in marks
+"nnoremap <silent> <C-m> :Marks<CR>
+" Search in history
+nnoremap <silent> <C-h> :History<CR>
+" Navigation in NORMAL mode
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+" Navigation in INSERT mode
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+inoremap <C-w> <S-Right>
+"inoremap <C-b> <S-Left>
+" Scroll beetween tabs
+"nnoremap <C-h> gT
+"nnoremap <C-l> gt
+" Scroll inside tab beetween panes
+nnoremap <C-j> <C-W><C-H>
+nnoremap <C-k> <C-W><C-L>
+" Resize panes
+noremap <C-Down> <C-w>+
+noremap <C-Up> <C-w>-
+noremap <C-Right> <C-w>>
+noremap <C-Left> <C-w><
+
+"-----------------------------------------------------------------------------
+" leader \ shortcuts
+"-----------------------------------------------------------------------------
+
+" Fzf
+" Global file search
+nnoremap <leader>f :Files .<CR>
+nnoremap <leader>/ :Files /<CR>
+" Search in cwd with rg
+nnoremap <leader>s :RG<CR>
+nnoremap <leader>t :below terminal<CR>
+nnoremap <leader>c :Calendar<CR>
+nnoremap <leader>r :source $MYVIMRC<CR>
+nnoremap <leader>pi :PluginInstall<CR>
+nnoremap <leader>vv :vsplit<CR>
+"nnoremap <leader>x :XplrPicker<CR>
+" File shortcuts
+nnoremap <leader>ef :e /sbin/firewall<CR>
+nnoremap <leader>ei :e /etc/network/interfaces<CR>
+nnoremap <leader>et :e $HOME/.tmux.conf<CR>
+nnoremap <leader>ev :e $HOME/.vimrc<CR>
+nnoremap <leader>ex :e $HOME/.config/xplr/init.lua<CR>
+" Wrap line under cursor to 80 width
+nnoremap <leader>8 :normal Vgq<CR>
+" Delete marks in document
+nnoremap <leader>m :delm! | delm A-Z0-9<CR>
+" Select again deselected
+nnoremap <leader>v V`]
+" Turn of the highlighting after search
+nnoremap <leader>] :nohl<CR>
+" Indent select with Shift-< and Shift->
+nnoremap <lt>> V`]<
+nnoremap ><lt> V`]>
+nnoremap =- V`]=
