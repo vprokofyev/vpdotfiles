@@ -241,7 +241,6 @@ alias txks='tmux kill-session -t'
 alias diff='diff --color'
 #alias ls='exa -r -g -B --color never --no-icons --group-directories-first --header'
 alias fd='fdfind'
-alias cat='batcat'
 alias wgu='wg-quick up wg0'
 alias wgd='wg-quick down wg0'
 

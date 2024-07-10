@@ -3,8 +3,6 @@
 !.gitignore
 !.vimrc
 !.vimrc-root
-!.vim/
-!.vim-root/
 !.bashrc
 !.tmux.conf
 !fzf-key-bindings.bash
