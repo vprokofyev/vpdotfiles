@@ -1,0 +1,14 @@
+*
+
+!.gitignore
+!.vimrc
+!.vimrc-root
+!.vim/
+!.vim-root/
+!.config
+!.config/mc
+!.config/mc/*
+!.bashrc
+!.tmux.conf
+!fzf-key-bindings.bash
+!requirements.txt
