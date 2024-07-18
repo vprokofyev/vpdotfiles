@@ -229,8 +229,8 @@ export FZF_DEFAULT_COMMAND="fdfind . $HOME"
 ###############################################################################
 # Aliases
 ###############################################################################
-alias vpdotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias configsync='cd ~ && vpdotfiles pull'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias configsync='cd ~ && dotfiles pull'
 alias man='vman'
 alias :q='exit'
 alias tx='tmuxinator'
@@ -241,8 +241,6 @@ alias txks='tmux kill-session -t'
 alias diff='diff --color'
 #alias ls='exa -r -g -B --color never --no-icons --group-directories-first --header'
 alias fd='fdfind'
-alias wgu='wg-quick up wg0'
-alias wgd='wg-quick down wg0'
 
 #alias zl='zellij -c ~/.config/zellij/config.kdl -l welcome'
 #alias zls='zellij list-sessions'
